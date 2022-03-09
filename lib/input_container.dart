@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:form_field_validator/form_field_validator.dart';
+import 'package:login_screen/API/error_response_model.dart';
+import 'package:login_screen/API/login_model.dart';
+import 'package:login_screen/API/login_response.dart';
 import 'package:login_screen/constants.dart';
 import 'package:login_screen/custom_text_field.dart';
 
@@ -12,11 +15,15 @@ class InputContainer extends StatefulWidget {
 
 class _InputContainerState extends State<InputContainer> {
   bool isChecked = false;
+  // for TextField
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController usernameController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
+
+// create validator for textField
   final usernameValidator =
       MultiValidator([RequiredValidator(errorText: 'این فیلد ضرروری است')]);
+
   final passwordValidator = MultiValidator([
     RequiredValidator(errorText: 'این فیلد ضرروری است'),
     MinLengthValidator(8, errorText: 'رمز عبور باید حداقل 8 کارکتر داشته باشد'),
@@ -25,6 +32,23 @@ class _InputContainerState extends State<InputContainer> {
     PatternValidator(r"^(?=.*?[0-9]).{6,}$",
         errorText: 'رمز عبور باید شامل اعداد باشد'),
   ]);
+
+ // call Api
+  void _getLoginStatus() async {
+    try {
+      var verResponse = await LoginResponse.getLoginStatus(LoginModel(
+          userName: usernameController.text,
+          userPassword: passwordController.text));
+
+      if (verResponse != null) {
+        usernameController.text = verResponse.userName!;
+        passwordController.text = verResponse.userPassword!;
+        setState(() {});
+      }
+    } on ErrorResponse catch (e) {
+      if (e.errorCode == 401) {}
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -75,21 +99,28 @@ class _InputContainerState extends State<InputContainer> {
               ],
             ),
           ),
-          const SizedBox(height: 16,),
+          const SizedBox(
+            height: 16,
+          ),
           SizedBox(
               width: size.width,
-              height: size.height*0.06,
+              height: size.height * 0.06,
               child: ElevatedButton(
                 onPressed: () {
                   final form = _formKey.currentState!;
-                  if(form.validate()){
-                    const SnackBar(content: Text('کاربر با موفقیت احزار هویت خود را انجام داد'));
+                  if (form.validate()) {
+                    _getLoginStatus();
+                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                        content: Text(
+                            'کاربر با موفقیت احزار هویت خود را انجام داد')));
                   }
                 },
                 child: const Text(
                   'تایید',
                   style: TextStyle(
-                      color: Colors.white, fontWeight: FontWeight.w900,fontSize: 20),
+                      color: Colors.white,
+                      fontWeight: FontWeight.w900,
+                      fontSize: 20),
                 ),
                 style: ElevatedButton.styleFrom(primary: Colors.blue.shade600),
               ))
