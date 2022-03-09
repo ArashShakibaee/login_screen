@@ -29,41 +29,44 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    return Scaffold(
-        body: Stack(
-      children: [
-        Positioned.fill(
-            child: Image.asset(
-          'images/background.jpg',
-          fit: BoxFit.fill,
-        )),
-        Positioned(
-            child: Container(
-              height: size.height * 0.12,
-              color: Colors.transparent,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: const[
-                   Text('سامانه هاب فناوری سلامت',style: kAppbarTitleTextStyle),
-                   Divider(color: Colors.red,indent: 128,endIndent: 16,thickness: 2,),
-                   Divider(color: Colors.grey,indent: 32,endIndent: 16,thickness: 2,),
-                ],
-              ),
-            )),
-        Positioned(
-            child: Center(
-                child: Container(
-          width: size.width * 0.7,
-          height: size.height * 0.5,
-          decoration: BoxDecoration(
-              color: Colors.grey.shade300.withOpacity(0.3),
-              borderRadius: BorderRadius.circular(10)),
-                  child: const Padding(
-                    padding:  EdgeInsets.symmetric(horizontal: 256),
-                    child:  InputContainer(),
-                  ),
-        ))),
-      ],
-    ));
+    return Directionality(
+      textDirection: TextDirection.rtl,
+      child: Scaffold(
+          body: Stack(
+        children: [
+          Positioned.fill(
+              child: Image.asset(
+            'images/background.jpg',
+            fit: BoxFit.fill,
+          )),
+          Positioned(
+              child: Container(
+                height: size.height * 0.12,
+                color: Colors.transparent,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: const[
+                     Text('سامانه هاب فناوری سلامت',style: kAppbarTitleTextStyle),
+                     Divider(color: Colors.red,indent: 16,endIndent: 128,thickness: 2,),
+                     Divider(color: Colors.grey,indent: 16,endIndent: 32,thickness: 2,),
+                  ],
+                ),
+              )),
+          Positioned(
+              child: Center(
+                  child: Container(
+            width: size.width * 0.7,
+            height: size.height * 0.5,
+            decoration: BoxDecoration(
+                color: Colors.grey.shade300.withOpacity(0.3),
+                borderRadius: BorderRadius.circular(10)),
+                    child: const Padding(
+                      padding:  EdgeInsets.symmetric(horizontal: 256),
+                      child:  InputContainer(),
+                    ),
+          ))),
+        ],
+      )),
+    );
   }
 }

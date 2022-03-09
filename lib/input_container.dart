@@ -57,16 +57,16 @@ class _InputContainerState extends State<InputContainer> {
       key: _formKey,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.end,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(':نام کاربری', style: kTitleTextStyle),
+          const Text('نام کاربری:', style: kTitleTextStyle),
           CustomTextField(
               hintText: 'نام کاربری خود را وارد کنید',
               validator: usernameValidator,
               controller: usernameController,
               obscureText: false),
           const SizedBox(height: 30),
-          const Text(':رمز عبور', style: kTitleTextStyle),
+          const Text('رمز عبور:', style: kTitleTextStyle),
           CustomTextField(
               hintText: 'رمز عبور را وارد کنید',
               validator: passwordValidator,
@@ -80,15 +80,8 @@ class _InputContainerState extends State<InputContainer> {
               });
             },
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.end,
+              mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                const Text(
-                  'من را به خاطر بسپار',
-                  style: kTitleTextStyle,
-                ),
-                const SizedBox(
-                  width: 10,
-                ),
                 Checkbox(
                     value: isChecked,
                     onChanged: (value) {
@@ -96,6 +89,11 @@ class _InputContainerState extends State<InputContainer> {
                         isChecked = value!;
                       });
                     }),
+                const SizedBox(height: 10,),
+                const Text(
+                  'من را به خاطر بسپار',
+                  style: kTitleTextStyle,
+                ),
               ],
             ),
           ),
